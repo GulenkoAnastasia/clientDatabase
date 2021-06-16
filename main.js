@@ -5,8 +5,9 @@ const Mustache = require('mustache');
 const { isEmpty } = require('lodash');
 const { dbClient } = require('./yourNoSql');
 const { serveStatic } = require('./serveStatic');
-
 const { handleAPIRequest } = require('./api.js');
+
+const PORT = process.env.PORT || 9090;
 
 const templateList = {
   userList: {
@@ -24,8 +25,7 @@ const templateList = {
  * @param {http.ServerResponse} res
  */
 async function listener(req, res) {
-
-  if(req.url.startsWith('/api/')) {
+  if (req.url.startsWith('/api/')) {
     handleAPIRequest(req, res);
     return;
   }
@@ -91,7 +91,7 @@ const arrOfPromises = Object.entries(templateList).map(async function ([template
 
 async function listenServer() {
   await Promise.all(arrOfPromises);
-  server.listen(9090);
+  server.listen(PORT);
 }
 
 listenServer();
